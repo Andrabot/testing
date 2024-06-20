@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Growtopia Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-info p {
+            font-size: 18px;
+        }
+
+        .store-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .item img {
+            max-width: 100%;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .item h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .item p {
+            margin: 5px 0;
+        }
+
+        .item button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .item button:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Growtopia Store</h1>
+    <div class="user-info">
+        <p id="user-id"></p>
+        <p>Total World Locks: <span id="total-wl">0</span></p>
+    </div>
+
+    <div class="store-container">
+        <div class="item">
+            <img src="seed.png" alt="Item 1">
+            <h3>Item 1</h3>
+            <p>Price: 10 WL</p>
+            <button onclick="buyItem(10)">Buy</button>
+        </div>
+        <div class="item">
+            <img src="seed.png" alt="Item 2">
+            <h3>Item 2</h3>
+            <p>Price: 15 WL</p>
+            <button onclick="buyItem(15)">Buy</button>
+        </div>
+        <div class="item">
+            <img src="seed.png" alt="Item 3">
+            <h3>Item 3</h3>
+            <p>Price: 20 WL</p>
+            <button onclick="buyItem(20)">Buy</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Growtopia Store - The best place to buy and sell your items. Powered by Growtopia Enthusiasts.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userIdElement = document.getElementById('user-id');
+            const totalWlElement = document.getElementById('total-wl');
+
+            // Generate a unique user ID per device
+            let userId = localStorage.getItem('userId');
+            if (!userId) {
+                userId = 'user-' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('userId', userId);
+            }
+            userIdElement.innerText = `User ID: ${userId}`;
+
+            // Fetch total world locks for this user from localStorage
+            let totalWl = localStorage.getItem(`wl-${userId}`);
+            if (!totalWl) {
+                totalWl = 0;
+            }
+            totalWlElement.innerText = totalWl;
+
+            window.buyItem = function(price) {
+                if (totalWl >= price) {
+                    totalWl -= price;
+                    localStorage.setItem(`wl-${userId}`, totalWl);
+                    totalWlElement.innerText = totalWl;
+                    alert('Purchase successful!');
+                } else {
+                    alert('Not enough World Locks!');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

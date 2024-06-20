@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .login-form, .admin-form {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .login-form {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Page</h1>
+    
+    <div class="login-form">
+        <form id="login-form">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+    <div class="admin-form">
+        <form id="admin-form">
+            <label for="user-id">User ID:</label>
+            <input type="text" id="user-id" required><br>
+            
+            <label for="world-locks">World Locks to Add:</label>
+            <input type="number" id="world-locks" required><br>
+            
+            <button type="submit">Add World Locks</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            const adminFormContainer = document.querySelector('.admin-form');
+
+            loginForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const passwordInput = document.getElementById('password').value;
+                if (passwordInput === 'CROSTIA') {
+                    loginForm.style.display = 'none';
+                    adminFormContainer.style.display = 'block';
+                } else {
+                    alert('Incorrect password. Please try again.');
+                }
+            });
+
+            const adminForm = document.getElementById('admin-form');
+            adminForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const userIdInput = document.getElementById('user-id').value;
+                const worldLocksInput = parseInt(document.getElementById('world-locks').value);
+
+                let currentWl = parseInt(localStorage.getItem(`wl-${userIdInput}`));
+                if (!currentWl) {
+                    currentWl = 0;
+                }
+
+                const newWl = currentWl + worldLocksInput;
+                localStorage.setItem(`wl-${userIdInput}`, newWl);
+
+                alert(`Added ${worldLocksInput} World Locks to ${userIdInput}. Total World Locks: ${newWl}`);
+            });
+        });
+    </script>
+</body>
+</html>
